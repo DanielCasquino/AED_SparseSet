@@ -11,7 +11,8 @@ class static_sparse_set
 {
 private:
     int *_sparse, *_dense;
-    std::size_t _itemCount, _maxValue;
+    std::size_t _itemCount, _maxValue, _size;
+    friend class sparse_set_controller;
 
 public:
 #pragma region methods
@@ -19,11 +20,12 @@ public:
     /// @param maxValue The MAXIMUM VALUE that will be able to be inserted.
     static_sparse_set(std::size_t maxValue)
     {
-        assert(maxValue > 0);
-        _sparse = new int[maxValue + 1];
-        _dense = new int[maxValue + 1];
+        assert(maxValue >= 0);
         _itemCount = 0;
-        _maxValue = maxValue + 1;
+        _maxValue = maxValue;
+        _size = maxValue + 1;
+        _sparse = new int[_size];
+        _dense = new int[_size];
     }
 
     /// @brief Copy constructor.
@@ -32,11 +34,12 @@ public:
     {
         _maxValue = other._maxValue;
         _itemCount = other._itemCount;
+        _size = other._size;
 
-        _sparse = new int[_maxValue];
-        _dense = new int[_maxValue];
+        _sparse = new int[_size];
+        _dense = new int[_size];
 
-        for (int i = 0; i < _maxValue; ++i)
+        for (int i = 0; i < _size; ++i)
         {
             _sparse[i] = other._sparse[i];
             _dense[i] = other._dense[i];
@@ -49,37 +52,42 @@ public:
     {
         _maxValue = other->_maxValue;
         _itemCount = other->_itemCount;
+        _size = other->_size;
 
-        _sparse = new int[_maxValue];
-        _dense = new int[_maxValue];
+        _sparse = new int[_size];
+        _dense = new int[_size];
 
-        for (int i = 0; i < _maxValue; ++i)
+        for (int i = 0; i < _size; ++i)
         {
             _sparse[i] = other->_sparse[i];
             _dense[i] = other->_dense[i];
         }
     }
 
-    /// @brief Clears sparse and dense arrays' memory.
+    /// @brief Clears _sparse and _dense arrays' memory.
     ~static_sparse_set()
     {
         delete[] _sparse;
         delete[] _dense;
         _itemCount = 0;
         _maxValue = 0;
+        _size = 0;
     }
 
     /// @brief Inserts a given value if it does not exceed _maxValue. Repeated values will not be inserted.
     /// @param value Value to be inserted.
-    void insert(const int value)
+    /// @return True if value was inserted, false otherwise.
+    bool insert(const int value)
     {
-        assert(value < _maxValue);
+        assert(value < _size);
         if (!find(value))
         {
             _dense[_itemCount] = value;
             _sparse[value] = _itemCount;
             ++_itemCount;
+            return true;
         }
+        return false;
     }
 
     /// @brief Inserts a list of values if there is no value that exceeds _maxValue. Repeated values will not be inserted.
@@ -97,32 +105,34 @@ public:
     /// @return Boolean representing the values' existence.
     bool find(const int value)
     {
-        assert(value < _maxValue);
+        assert(value < _size);
 
         // Check if the value is within bounds before accessing _sparse
-        if (value < _maxValue && _sparse[value] < _itemCount)
+        if (value < _size && _sparse[value] < _itemCount)
         {
             int found = _dense[_sparse[value]]; // Retrieves found value corresponding to the found array in _sparse
             return found == value;
         }
-
         return false;
     }
 
     /// @brief Finds and deletes a given value.
     /// @param value Value to be deleted.
-    void remove(const int value)
+    /// @return True if value was removed, false otherwise.
+    bool remove(const int value)
     {
         if (find(value))
         {
             --_itemCount;
-            int valueIndexInDense = _sparse[value];                 // Retrieves item position in dense
-            _dense[valueIndexInDense] = _dense[_itemCount];         // Replaces the item in dense with the last element of dense
-            _sparse[_dense[valueIndexInDense]] = valueIndexInDense; // Updates the corresponding index in sparse to point to the correct element
+            int valueIndexInDense = _sparse[value];                 // Retrieves item position in _dense
+            _dense[valueIndexInDense] = _dense[_itemCount];         // Replaces the item in _dense with the last element of _dense
+            _sparse[_dense[valueIndexInDense]] = valueIndexInDense; // Updates the corresponding index in _sparse to point to the correct element
+            return true;
         }
+        return false;
     }
 
-    /// @brief Iterates through and displays all items in the set.
+    /// @brief Iterates through and displays all items in the _dense.
     void displayItems()
     {
         if (empty())
@@ -154,7 +164,7 @@ public:
     /// @return Size of arrays.
     std::size_t size()
     {
-        return _maxValue;
+        return _size;
     }
 #pragma endregion
 
