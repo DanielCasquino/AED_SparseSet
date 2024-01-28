@@ -10,8 +10,8 @@
 class static_sparse_set
 {
 private:
-    int *_sparse, *_dense;
-    std::size_t _itemCount, _maxValue, _size;
+    int *_sparse = nullptr, *_dense = nullptr;
+    std::size_t _itemCount = 0, _maxValue = 0, _size = 1;
     friend class sparse_set_controller;
 
 public:
@@ -69,6 +69,8 @@ public:
     {
         delete[] _sparse;
         delete[] _dense;
+        _sparse = nullptr;
+        _dense = nullptr;
         _itemCount = 0;
         _maxValue = 0;
         _size = 0;

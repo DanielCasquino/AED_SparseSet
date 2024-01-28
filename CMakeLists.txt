@@ -13,7 +13,7 @@ link_libraries(ws2_32 wsock32)
 include(CTest)
 enable_testing()
 
-add_executable(AED_SparseSet main.cpp sparse_set.h sparse_set_controller.h api.h)
+add_executable(AED_SparseSet main.cpp sparse_set.h sparse_set_controller.h sparse_set_service.h api.h)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
