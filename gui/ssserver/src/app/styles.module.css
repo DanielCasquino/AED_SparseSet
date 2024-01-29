@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&display=swap');
+
+.body {
+    --primary: rgb(175, 175, 175);
+    --secondary: rgb(150, 150, 150);
+    --accent: rgb(110, 110, 110);
+    --dark: rgb(27, 24, 34);
+
+
+    width: 100%;
+    height: 100%;
+    background-color: var(--dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    flex-direction: column;
+    font-family: 'Rubik', sans-serif;
+}
+
+.bigTitle {
+    font-size: 6em;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 0;
+}
+
+.smallTitle {
+    font-size: 1em;
+    font-weight: 600;
+    color: var(--secondary);
+    margin: 0;
+}
+
+.about {
+    font-size: 1em;
+    font-weight: 400;
+    color: var(--primary);
+    margin-top: 2em;
+    width: 40%;
+    min-width: 480px;
+    text-align: center;
+    text-justify: inter-word;
+}
+
+.sandbox {
+    background-color: var(--primary);
+    color: var(--dark);
+    border: none;
+    outline: none;
+    box-sizing: content-box;
+    padding: 1em;
+    border-radius: 0.5em;
+    margin-top: 2em;
+    font-size: 1em;
+    cursor: pointer;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 600;
+    transition: all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.sandbox:hover {
+    background-color: var(--secondary);
+    scale: 102%;
+}
+
+.sandbox:active {
+    background-color: var(--accent);
+    scale: 98%;
+}

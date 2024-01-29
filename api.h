@@ -2,10 +2,13 @@
 
 #include "crow.h"
 #include "sparse_set_service.h"
+#include "shellapi.h"
+#include <iostream>
 
 /// @brief App starting point. Receives a port as a parameter.
 struct Api
 {
+    const float version = 0.1;
     crow::SimpleApp app;
     int _port = 18080;
     sparse_set_service *service = nullptr;
@@ -28,8 +31,25 @@ struct Api
     }
 
     /// @brief Starts server.
-    void start()
+    /// @param openBrowser Defines if browser is opened on app start.
+    void start(bool openBrowser = false)
     {
+        if (openBrowser)
+            ShellExecuteA(0, NULL, "http://localhost:18080", NULL, NULL, SW_SHOWDEFAULT);
+        welcome();
         app.port(_port).multithreaded().run();
+    }
+
+    /// @brief Displays welcome message.
+    void welcome()
+    {
+        std::cout << " ___ ___ ___                      \n";
+        std::cout << "/ __/ __/ __| ___ _ ___ _____ _ _ \n";
+        std::cout << "\\__ \\__ \\__ \\/ -_) '_\\ V / -_) '_|\n";
+        std::cout << "|___/___/___/\\___|_|  \\_/\\___|_|  \n";
+        std::cout << "Sparse Set Server - ver" << version << std::endl
+                  << std::endl;
+        std::cout << "Read DOCS.md to get started." << std::endl
+                  << std::endl;
     }
 };

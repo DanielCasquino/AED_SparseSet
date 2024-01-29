@@ -9,7 +9,6 @@ include_directories(lib)
 
 link_libraries(ws2_32 wsock32)
 
-
 include(CTest)
 enable_testing()
 

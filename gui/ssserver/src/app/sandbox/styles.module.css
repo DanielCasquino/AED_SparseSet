@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&display=swap');
+
+.body {
+    --primary: rgb(175, 175, 175);
+    --secondary: rgb(150, 150, 150);
+    --accent: rgb(110, 110, 110);
+    --dark: rgb(27, 24, 34);
+
+
+    width: 100%;
+    height: 100%;
+    background-color: var(--dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    flex-direction: column;
+    font-family: 'Rubik', sans-serif;
+}

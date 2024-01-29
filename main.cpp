@@ -3,6 +3,6 @@
 int main()
 {
     Api api(18080);
-    api.start();
+    api.start(false);
     return 0;
 }
