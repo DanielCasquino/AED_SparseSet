@@ -4,7 +4,7 @@
     --primary: rgb(175, 175, 175);
     --secondary: rgb(150, 150, 150);
     --accent: rgb(110, 110, 110);
-    --dark: rgb(27, 24, 34);
+    --dark: #0D1117;
 
 
     width: 100%;
@@ -67,4 +67,12 @@
 .sandbox:active {
     background-color: var(--accent);
     scale: 98%;
+}
+
+.github {
+    position: absolute;
+    bottom: 1em;
+    right: 1em;
+    width: 20px;
+    aspect-ratio: 1/1;
 }

@@ -4,7 +4,7 @@
     --primary: rgb(175, 175, 175);
     --secondary: rgb(150, 150, 150);
     --accent: rgb(110, 110, 110);
-    --dark: rgb(27, 24, 34);
+    --dark: #0D1117;
 
 
     width: 100%;
@@ -16,4 +16,17 @@
     user-select: none;
     flex-direction: column;
     font-family: 'Rubik', sans-serif;
+}
+
+.loading {
+    color: var(--primary);
+    font-size: 2em;
+    font-weight: 800;
+}
+
+.timeout {
+    color: var(--secondary);
+    font-size: 1em;
+    font-weight: 400;
+    margin-top: 0.5em;
 }
