@@ -55,7 +55,7 @@ function Content() {
 }
 
 export default function Sandbox() {
-  return (<div className={styles.body}>
+  return (<div className={`${styles.body} ${styles.dark}`}>
     <LoadingScreen />
   </div>)
 }

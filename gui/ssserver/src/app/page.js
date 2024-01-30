@@ -3,7 +3,7 @@ import './global.css'
 
 
 export default function Home() {
-  return (<div className={styles.body}>
+  return (<div className={`${styles.body} ${styles.dark}`}>
     <a href='https://github.com/DanielCasquino/AED_SparseSet'><img src="/github-mark/github-mark-white.svg" className={styles.github} decoding='async'></img></a>
     <h1 className={styles.bigTitle}>SSServer</h1>
     <h3 className={styles.smallTitle}>(Sparse Set Server)</h3>
