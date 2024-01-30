@@ -20,7 +20,6 @@ public:
     /// @param maxValue The MAXIMUM VALUE that will be able to be inserted.
     static_sparse_set(std::size_t maxValue)
     {
-        assert(maxValue >= 0);
         _itemCount = 0;
         _maxValue = maxValue;
         _size = maxValue + 1;
@@ -46,24 +45,6 @@ public:
         }
     }
 
-    /// @brief Copy constructor for copying a set allocated in dynamic memory.
-    /// @param other Pointer to source set.
-    static_sparse_set(const static_sparse_set *other)
-    {
-        _maxValue = other->_maxValue;
-        _itemCount = other->_itemCount;
-        _size = other->_size;
-
-        _sparse = new int[_size];
-        _dense = new int[_size];
-
-        for (int i = 0; i < _size; ++i)
-        {
-            _sparse[i] = other->_sparse[i];
-            _dense[i] = other->_dense[i];
-        }
-    }
-
     /// @brief Clears _sparse and _dense arrays' memory.
     ~static_sparse_set()
     {
@@ -81,8 +62,11 @@ public:
     /// @return True if value was inserted, false otherwise.
     bool insert(const int value)
     {
-        assert(value < _size);
-        if (!find(value))
+        if (value > _maxValue)
+        {
+            return false;
+        }
+        if (find(value) == -1)
         {
             _dense[_itemCount] = value;
             _sparse[value] = _itemCount;
@@ -104,38 +88,37 @@ public:
 
     /// @brief Returns a value's existence inside the set.
     /// @param value Value to look for.
-    /// @return Boolean representing the values' existence.
-    bool find(const int value)
+    /// @return -1 if value was not found, else returns index of element in dense.
+    int find(int value)
     {
-        assert(value < _size);
+        if (value > _maxValue)
+            return -1;
 
-        // Check if the value is within bounds before accessing _sparse
-        if (value < _size && _sparse[value] < _itemCount)
-        {
-            int found = _dense[_sparse[value]]; // Retrieves found value corresponding to the found array in _sparse
-            return found == value;
-        }
-        return false;
+        if (_sparse[value] < _itemCount && _dense[_sparse[value]] == value) // Checks if found index is in range and value is found in dense
+            return (_sparse[value]);
+
+        return -1;
     }
 
     /// @brief Finds and deletes a given value.
     /// @param value Value to be deleted.
-    /// @return True if value was removed, false otherwise.
-    bool remove(const int value)
+    /// @return -1 if item was not found, else returns value.
+    int remove(const int value)
     {
-        if (find(value))
+        int search = find(value);
+        if (search != -1)
         {
             --_itemCount;
             int valueIndexInDense = _sparse[value];                 // Retrieves item position in _dense
             _dense[valueIndexInDense] = _dense[_itemCount];         // Replaces the item in _dense with the last element of _dense
             _sparse[_dense[valueIndexInDense]] = valueIndexInDense; // Updates the corresponding index in _sparse to point to the correct element
-            return true;
+            return search;
         }
-        return false;
+        return -1;
     }
 
-    /// @brief Iterates through and displays all items in the _dense.
-    void displayItems()
+    /// @brief Iterates through and displays all items in _dense.
+    void displayItems() const
     {
         if (empty())
         {
@@ -149,6 +132,21 @@ public:
         }
     }
 
+    /// @brief Displays indexes of elements in dense.
+    void displayIndexes()
+    {
+        if (empty())
+        {
+            std::cout << "[]\n";
+            return;
+        }
+        std::cout << '[';
+        for (int i = 0; i < _size; ++i)
+        {
+            std::cout << find(i) << (i < _size - 1 ? ", " : "]\n");
+        }
+    }
+
     /// @brief Deletes all items in the set.
     void clear()
     {
@@ -157,14 +155,14 @@ public:
 
     /// @brief Returns the emptiness state of the set.
     /// @return True if empty, false otherwise.
-    bool empty()
+    bool empty() const
     {
         return !_itemCount;
     }
 
     /// @brief Returns the size of the underlying arrays.
     /// @return Size of arrays.
-    std::size_t size()
+    std::size_t size() const
     {
         return _size;
     }

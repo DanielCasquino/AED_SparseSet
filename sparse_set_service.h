@@ -64,7 +64,7 @@ public:
         }
         else
         {
-            return crow::response(404, "undefined");
+            return crow::response(400, "undefined");
         }
     }
 
