@@ -18,77 +18,53 @@ public:
     {
         delete _controller;
     }
-    crow::response Read()
-    {
-        if (_controller->_data)
-        {
-            return _controller->GetJSON();
-        }
-        else
-        {
-            return crow::response(404, "undefined");
-        }
-    }
 
     crow::response Create(int size)
     {
-        if (size > 0)
-        {
-            return _controller->Create(size);
-        }
-        else
-        {
-            return crow::response(400, "undefined");
-        }
+        crow::response res = _controller->Create(size);
+        res.add_header("Access-Control-Allow-Origin", "*");
+        return res;
     }
 
-    crow::response Destroy()
+    crow::response Read()
     {
-        if (_controller->_data)
-        {
-            delete _controller->_data;
-            _controller->_data = nullptr;
-            return crow::response(200, "Sparse set deleted.");
-        }
-        else
-        {
-            return crow::response(404, "undefined");
-        }
+        crow::response res = _controller->Read();
+        res.add_header("Access-Control-Allow-Origin", "*");
+        return res;
     }
 
     crow::response Insert(int value)
     {
-        if (_controller->_data && value < _controller->GetSize())
-        {
-            return _controller->Insert(value);
-        }
-        else
-        {
-            return crow::response(400, "undefined");
-        }
+        crow::response res = _controller->Insert(value);
+        res.add_header("Access-Control-Allow-Origin", "*");
+        return res;
     }
 
     crow::response Remove(int value)
     {
-        if (_controller->_data && value < _controller->GetSize())
-        {
-            return _controller->Remove(value);
-        }
-        else
-        {
-            return crow::response(404, "undefined");
-        }
+        crow::response res = _controller->Remove(value);
+        res.add_header("Access-Control-Allow-Origin", "*");
+        return res;
+    }
+
+    crow::response Delete()
+    {
+        crow::response res = _controller->Delete();
+        res.add_header("Access-Control-Allow-Origin", "*");
+        return res;
     }
 
     crow::response Clear()
     {
-        if (_controller->_data)
-        {
-            return _controller->Clear();
-        }
-        else
-        {
-            return crow::response(404, "undefined");
-        }
+        crow::response res = _controller->Clear();
+        res.add_header("Access-Control-Allow-Origin", "*");
+        return res;
+    }
+
+    crow::response Ping()
+    {
+        crow::response res(200);
+        res.add_header("Access-Control-Allow-Origin", "*");
+        return res;
     }
 };

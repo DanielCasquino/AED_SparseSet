@@ -47,12 +47,13 @@
     margin-top: 2em;
     width: 40%;
     min-width: 480px;
+    max-width: 640px;
     text-align: center;
     text-justify: inter-word;
 }
 
 .sandbox {
-    background-color: var(--primary);
+    background-color: var(--secondary);
     color: var(--dark);
     border: none;
     outline: none;
@@ -68,7 +69,7 @@
 }
 
 .sandbox:hover {
-    background-color: var(--secondary);
+    background-color: var(--primary);
     scale: 102%;
 }
 
@@ -81,6 +82,6 @@
     position: absolute;
     bottom: 1em;
     right: 1em;
-    width: 20px;
+    width: 35px;
     aspect-ratio: 1/1;
 }

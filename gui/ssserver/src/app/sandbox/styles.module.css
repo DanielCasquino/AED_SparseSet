@@ -38,3 +38,55 @@
     font-weight: 400;
     margin-top: 0.5em;
 }
+
+.fetchButton {
+    background-color: var(--secondary);
+    color: var(--dark);
+    border: none;
+    outline: none;
+    box-sizing: content-box;
+    padding: 1em;
+    border-radius: 0.5em;
+    margin-top: 2em;
+    font-size: 1em;
+    cursor: pointer;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 600;
+    transition: all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.fetchButton:hover {
+    background-color: var(--primary);
+    scale: 102%;
+}
+
+.fetchButton:active {
+    background-color: var(--accent);
+    scale: 98%;
+}
+
+.creationContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.creationInput {
+    background-color: var(--primary);
+    color: var(--dark);
+    font-family: 'Rubik', sans-serif;
+    font-size: 2em;
+    font-weight: 800;
+    width: 2.5em;
+    height: 1.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 10%;
+    border: transparent;
+    outline: transparent;
+    caret-color: var(--dark);
+    padding: 0;
+}

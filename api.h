@@ -22,28 +22,25 @@ struct Api
 
         cors
             .global()
-            .headers("X-Custom-Header", "Upgrade-Insecure-Requests")
-            .methods("POST"_method, "GET"_method, "DELETE"_method, "PUT"_method)
-            .prefix("/cors")
-            .origin("*")
-            .prefix("/nocors")
-            .ignore();
+            .headers("*")
+            .methods("POST"_method, "GET"_method, "DELETE"_method, "PUT"_method, "OPTIONS"_method)
+            .origin("*");
 
         service = new sparse_set_service();
-        CROW_ROUTE(app, "/create/<int>").methods(crow::HTTPMethod::PUT)([&](int size)
+        CROW_ROUTE(app, "/create/<int>").methods(crow::HTTPMethod::Get)([&](int size)
                                                                         { return service->Create(size); });
-        CROW_ROUTE(app, "/read").methods(crow::HTTPMethod::GET)([&]()
+        CROW_ROUTE(app, "/read").methods(crow::HTTPMethod::Get)([&]()
                                                                 { return service->Read(); });
-        CROW_ROUTE(app, "/remove/<int>").methods(crow::HTTPMethod::POST)([&](int value)
-                                                                         { return service->Remove(value); });
-        CROW_ROUTE(app, "/insert/<int>").methods(crow::HTTPMethod::POST)([&](int value)
-                                                                         { return service->Insert(value); });
-        CROW_ROUTE(app, "/clear").methods(crow::HTTPMethod::PATCH)([&]()
-                                                                   { return service->Clear(); });
-        CROW_ROUTE(app, "/delete").methods(crow::HTTPMethod::Delete)([&]()
-                                                                     { return service->Destroy(); });
-        CROW_ROUTE(app, "/check").methods(crow::HTTPMethod::GET)([&]()
-                                                                 { return crow::response(200); });
+        CROW_ROUTE(app, "/remove/<int>").methods(crow::HTTPMethod::Get)([&](int value)
+                                                                        { return service->Remove(value); });
+        CROW_ROUTE(app, "/insert/<int>").methods(crow::HTTPMethod::Get)([&](int value)
+                                                                        { return service->Insert(value); });
+        CROW_ROUTE(app, "/clear").methods(crow::HTTPMethod::Get)([&]()
+                                                                 { return service->Clear(); });
+        CROW_ROUTE(app, "/delete").methods(crow::HTTPMethod::Get)([&]()
+                                                                  { return service->Delete(); });
+        CROW_ROUTE(app, "/check").methods(crow::HTTPMethod::Get)([&]()
+                                                                 { return service->Ping(); });
     }
 
     /// @brief Starts server.
