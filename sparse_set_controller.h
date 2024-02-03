@@ -76,8 +76,8 @@ public:
         if (_data)
         {
             crow::json::wvalue response;
-            response["Sparse"] = SparseToVector();
-            response["Dense"] = DenseToVector();
+            response["sparse"] = SparseToVector();
+            response["dense"] = DenseToVector();
             response["itemCount"] = _data->_itemCount;
             response["maxValue"] = _data->_maxValue;
             response["size"] = _data->_size;

@@ -38,8 +38,14 @@ function LoadingScreen() {
 
   }, []);
 
+  const changeTheme = () => {
+    const body = document.getElementById('body');
+    body.dataset.theme = body.dataset.theme === 'dark' ? 'light' : 'dark';
+  }
+
   return (
-    <div className={styles.body}>
+    <div className={styles.body} id="body">
+      <button className={styles.themeButton} onClick={changeTheme}></button>
       {loaded ? <Content /> : <LoadingMessage timer={timer} timeout={timeout} />}
     </div>
   );
@@ -48,16 +54,15 @@ function LoadingScreen() {
 function LoadingMessage({ timer, timeout }) {
   return (
     <>
-      <span className={styles.loading}>Loading... {timer}s</span>
+      <span className={styles.loading}>Connecting... {timer}s</span>
       {timer > timeout ? <span className={styles.timeout}>Api not responding. Is it up and running?</span> : <></>}
     </>)
 }
 
 export default function Sandbox() {
   return (
-    <div className={`${styles.body} ${styles.dark}`}>
-      <LoadingScreen />
-    </div>)
+    <LoadingScreen />
+  )
 }
 
 
@@ -101,10 +106,9 @@ function Content() {
 
   }, []);
 
-  return (
-    <div className={styles.body}>
-      {info != null ? <SetFound info={info} setInfo={setInfo} /> : <NoSetFound setInfo={setInfo} />}
-    </div>
+  return (<>
+    {info != null ? <SetFound info={info} setInfo={setInfo} /> : <NoSetFound setInfo={setInfo} />}
+  </>
   )
 }
 
@@ -157,7 +161,7 @@ function NoSetFound({ setInfo }) {
           required
           type='number'
           min={1}
-          max={999}
+          max={100}
           minLength={1}
           maxLength={3}
           placeholder='10'
@@ -173,7 +177,6 @@ function SetFound({ info, setInfo }) {
   const [hoveredDense, setHoveredDense] = useState(null);
   const [hoveredSparse, setHoveredSparse] = useState(null);
 
-
   const handleDenseHover = (value) => {
     setHoveredSparse(value != -1 ? value : null);
   };
@@ -183,7 +186,7 @@ function SetFound({ info, setInfo }) {
   };
 
   const displayDense = () => {
-    return info["Dense"].map((value, index) => (
+    return info["dense"].map((value, index) => (
       <div
         key={index}
         className={`${styles.setSquare} ${hoveredDense === index ? styles.hovered : ''}`}
@@ -196,7 +199,7 @@ function SetFound({ info, setInfo }) {
   };
 
   const displaySparse = () => {
-    return info["Sparse"].map((value, index) => (
+    return info["sparse"].map((value, index) => (
       <div
         key={index}
         className={`${styles.setSquare} ${hoveredSparse === index ? styles.hovered : ''}`}
@@ -214,9 +217,9 @@ function SetFound({ info, setInfo }) {
 
   return (
     <div className={styles.setContainer}>
-      <label className={styles.label} for="dense">Dense</label>
+      <label className={styles.label} htmlFor="dense">Dense</label>
       <div className={styles.array} id="dense">{dense}</div>
-      <label className={styles.label} for="sparse">Sparse</label>
+      <label className={styles.label} htmlFor="sparse">Sparse</label>
       <div className={styles.array} id="sparse">{sparse}</div>
     </div>
   );
