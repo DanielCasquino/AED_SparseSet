@@ -12,6 +12,7 @@
     --secondary: rgb(150, 150, 150);
     --accent: rgb(110, 110, 110);
     --dark: #0D1117;
+    --wtf: #9F4A54;
 }
 
 .body {
@@ -89,4 +90,61 @@
     outline: transparent;
     caret-color: var(--dark);
     padding: 0;
+}
+
+.setContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: fit-content;
+    height: 100%;
+    padding: 0 5em;
+}
+
+.array {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    align-items: center;
+    width: fit-content;
+    color: var(--dark);
+    font-family: 'Rubik', sans-serif;
+    font-size: 2em;
+    font-weight: 800;
+    box-sizing: border-box;
+    gap: 0.2em;
+}
+
+.array:not(:last-child) {
+    margin-bottom: 2em;
+}
+
+.setSquare {
+    background-color: var(--primary);
+    width: 2em;
+    height: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    border-radius: 0.2em;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.setSquare:hover {
+    background-color: var(--accent);
+}
+
+.hovered {
+    background-color: var(--wtf);
+}
+
+.label {
+    font-family: 'Rubik', sans-serif;
+    font-size: 1.25em;
+    font-weight: 400;
+    color: var(--primary);
+    margin-left: 0.15em;
+    margin-bottom: 0.5em;
 }

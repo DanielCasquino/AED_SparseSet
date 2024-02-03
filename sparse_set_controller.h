@@ -108,7 +108,7 @@ public:
     {
         if (_data && value < this->GetSize())
         {
-            bool response = _data->remove(value);
+            bool response = _data->remove(value) != -1;
             crow::json::wvalue wv;
             wv = std::move(response);
             return crow::response(response ? 200 : 404, std::move(wv));

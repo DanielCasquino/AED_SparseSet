@@ -81,6 +81,9 @@ function Content() {
           setInfo(data);
           setTimer(0);
         }
+        else {
+          setInfo(null);
+        }
       } catch (error) {
         setInfo(null);
         console.error('Error checking server:', error);
@@ -92,7 +95,7 @@ function Content() {
     const intervalId = setInterval(() => {
       setTimer((prevTimer) => prevTimer + 1);
       checkExistingSet();
-    }, 5000);
+    }, 1000);
 
     return () => clearInterval(intervalId);
 
@@ -100,7 +103,7 @@ function Content() {
 
   return (
     <div className={styles.body}>
-      {info != null ? <SetFound setInfo={setInfo} /> : <NoSetFound setInfo={setInfo} />}
+      {info != null ? <SetFound info={info} setInfo={setInfo} /> : <NoSetFound setInfo={setInfo} />}
     </div>
   )
 }
@@ -166,25 +169,55 @@ function NoSetFound({ setInfo }) {
   )
 }
 
-function SetFound({ setInfo }) {
+function SetFound({ info, setInfo }) {
+  const [hoveredDense, setHoveredDense] = useState(null);
+  const [hoveredSparse, setHoveredSparse] = useState(null);
 
-  const deleter = async () => {
-    try {
-      const response = await fetch('http://localhost:18080/delete');
-      if (response.status == 200) {
-        setInfo(null);
-      }
-      else if (response.status == 404) {
-        alert("There is no set to delete!");
-      }
-    } catch (error) {
-      console.error('Error checking server:', error);
-    }
+
+  const handleDenseHover = (value) => {
+    setHoveredSparse(value != -1 ? value : null);
   };
 
-  return (<>
-    <span className={styles.loading}>Sparse set loaded</span>
-    <button className={styles.fetchButton} onClick={deleter}>Setus deletus</button>
-  </>
-  )
+  const handleSparseHover = (value) => {
+    setHoveredDense(value != -1 ? value : null);
+  };
+
+  const displayDense = () => {
+    return info["Dense"].map((value, index) => (
+      <div
+        key={index}
+        className={`${styles.setSquare} ${hoveredDense === index ? styles.hovered : ''}`}
+        onMouseEnter={() => handleDenseHover(value)}
+        onMouseLeave={() => handleDenseHover(null)}
+      >
+        {value != -1 ? value : null}
+      </div>
+    ));
+  };
+
+  const displaySparse = () => {
+    return info["Sparse"].map((value, index) => (
+      <div
+        key={index}
+        className={`${styles.setSquare} ${hoveredSparse === index ? styles.hovered : ''}`}
+        onMouseEnter={() => handleSparseHover(value)}
+        onMouseLeave={() => handleSparseHover(null)}
+      >
+        {value != -1 ? value : null}
+      </div>
+    ));
+  };
+
+  // Assuming `info` contains two arrays named `firstArray` and `secondArray`
+  const dense = displayDense();
+  const sparse = displaySparse();
+
+  return (
+    <div className={styles.setContainer}>
+      <label className={styles.label} for="dense">Dense</label>
+      <div className={styles.array} id="dense">{dense}</div>
+      <label className={styles.label} for="sparse">Sparse</label>
+      <div className={styles.array} id="sparse">{sparse}</div>
+    </div>
+  );
 }
