@@ -1,9 +1,9 @@
 'use client'
 
-import styles from './styles.module.css'
+import styles from './sandbox.module.css'
 import './global.css'
 import { useState, useEffect } from 'react'
-
+import Cookies from 'js-cookie'
 
 function LoadingScreen() {
   const [loaded, setLoaded] = useState(false);
@@ -11,6 +11,7 @@ function LoadingScreen() {
   const [timer, setTimer] = useState(0);
 
   useEffect(() => {
+    setThemeInit();
     const checkServer = async () => {
       try {
         // Check api state
@@ -38,9 +39,19 @@ function LoadingScreen() {
 
   }, []);
 
+  const setThemeInit = () => {
+    let curr = Cookies.get('theme');
+    const body = document.getElementById('body');
+    body.dataset.theme = curr === 'dark' ? 'light' : 'dark';
+  }
+
   const changeTheme = () => {
     const body = document.getElementById('body');
     body.dataset.theme = body.dataset.theme === 'dark' ? 'light' : 'dark';
+
+    let curr = Cookies.get('theme');
+    curr = curr === 'dark' ? 'light' : 'dark';
+    Cookies.set('theme', curr);
   }
 
   return (
@@ -117,7 +128,7 @@ function NoSetFound({ setInfo }) {
   const [creationSize, setCreationSize] = useState(10);
 
   const createSparseSet = async () => {
-    if (creationSize > 0 && creationSize < 1000) {
+    if (creationSize > 0 && creationSize <= 100) {
       try {
         const responseCreate = await fetch(`http://localhost:18080/create/${creationSize}`);
 
@@ -217,9 +228,9 @@ function SetFound({ info, setInfo }) {
 
   return (
     <div className={styles.setContainer}>
-      <label className={styles.label} htmlFor="dense">Dense</label>
+      <label className={styles.label} htmlFor="dense">Dense Array</label>
       <div className={styles.array} id="dense">{dense}</div>
-      <label className={styles.label} htmlFor="sparse">Sparse</label>
+      <label className={styles.label} htmlFor="sparse">Sparse Array</label>
       <div className={styles.array} id="sparse">{sparse}</div>
     </div>
   );

@@ -1,12 +1,27 @@
 'use client'
 
-import styles from './styles.module.css'
+import styles from './home.module.css'
 import './global.css'
+import { useEffect } from 'react'
+import Cookies from 'js-cookie'
 
 export default function Home() {
+  useEffect(() => {
+    setThemeInit();
+  }, []);
+
+  const setThemeInit = () => {
+    let curr = Cookies.get('theme');
+    const body = document.getElementById('body');
+    body.dataset.theme = curr === 'dark' ? 'dark' : 'light';
+  }
+
   const changeTheme = () => {
     const body = document.getElementById('body');
     body.dataset.theme = body.dataset.theme === 'dark' ? 'light' : 'dark';
+    let curr = Cookies.get('theme');
+    curr = curr === 'dark' ? 'light' : 'dark';
+    Cookies.set('theme', curr);
   }
   return (<div className={styles.body} id="body">
     <button className={styles.themeButton} onClick={changeTheme}></button>

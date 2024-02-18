@@ -11,53 +11,62 @@
     flex-direction: column;
     font-family: 'Rubik', sans-serif;
 
-    --primary: rgb(40, 40, 40);
-    --secondary: rgb(65, 65, 65);
-    --accent: rgb(145, 145, 145);
-    --dark: rgb(230, 230, 230);
-    --wtf: #ff9137;
-}
+    --primary: rgb(160, 160, 160);
+    --secondary: rgb(120, 120, 120);
+    --dark: rgb(20, 20, 20);
 
-/* Dark theme styles */
-.body[data-theme="dark"] {
-    --primary: rgb(175, 175, 175);
-    --secondary: rgb(150, 150, 150);
-    --accent: rgb(110, 110, 110);
-    --dark: #0D1117;
-    --wtf: #9F4A54;
+    --tiny: 0.8vmin;
+    --small: 1.6vmin;
+    --regular: 2vmin;
+    --medium: 3vmin;
+    --big: 5vmin;
+    --huge: 8vmin;
+    --ginormous: 10vmin;
+
+    --square: 6vmin;
 
     .github {
         filter: invert(100%);
     }
 }
 
+.body[data-theme="light"] {
+    --primary: rgb(40, 40, 40);
+    --secondary: rgb(65, 65, 65);
+    --dark: rgb(230, 230, 230);
+
+    .github {
+        filter: invert(0%);
+    }
+}
+
 .themeButton {
     position: absolute;
-    top: 1em;
-    right: 1em;
-    width: 35px;
+    top: var(--small);
+    right: var(--small);
+    width: var(--medium);
     aspect-ratio: 1/1;
 }
 
 .bigTitle {
-    font-size: 6em;
+    font-size: var(--ginormous);
     font-weight: 800;
     color: var(--primary);
     margin: 0;
 }
 
 .smallTitle {
-    font-size: 1em;
+    font-size: var(--small);
     font-weight: 600;
     color: var(--secondary);
     margin: 0;
 }
 
 .about {
-    font-size: 1em;
+    font-size: var(--small);
     font-weight: 400;
     color: var(--primary);
-    margin-top: 2em;
+    margin-top: var(--medium);
     width: 40%;
     min-width: 480px;
     max-width: 640px;
@@ -71,10 +80,10 @@
     border: none;
     outline: none;
     box-sizing: content-box;
-    padding: 1em;
-    border-radius: 0.5em;
-    margin-top: 2em;
-    font-size: 1em;
+    padding: var(--small);
+    border-radius: var(--small);
+    margin-top: var(--medium);
+    font-size: var(--small);
     cursor: pointer;
     font-family: 'Rubik', sans-serif;
     font-weight: 600;
@@ -91,8 +100,7 @@
 
 .github {
     position: absolute;
-    bottom: 1em;
-    right: 1em;
-    width: 35px;
-    aspect-ratio: 1/1;
+    bottom: var(--small);
+    right: var(--small);
+    width: var(--medium);
 }
