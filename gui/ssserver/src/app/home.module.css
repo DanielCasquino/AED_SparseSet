@@ -14,6 +14,7 @@
     --primary: rgb(160, 160, 160);
     --secondary: rgb(120, 120, 120);
     --dark: rgb(20, 20, 20);
+    --hovered: #374bff;
 
     --tiny: 0.8vmin;
     --small: 1.6vmin;
@@ -34,6 +35,7 @@
     --primary: rgb(40, 40, 40);
     --secondary: rgb(65, 65, 65);
     --dark: rgb(230, 230, 230);
+    --hovered: #ff9137;
 
     .github {
         filter: invert(0%);
@@ -46,6 +48,8 @@
     right: var(--small);
     width: var(--medium);
     aspect-ratio: 1/1;
+    border-radius: 50%;
+    background-color: var(--hovered);
 }
 
 .bigTitle {
@@ -91,11 +95,11 @@
 }
 
 .sandbox:hover {
-    scale: 102%;
+    scale: 106%;
 }
 
 .sandbox:active {
-    scale: 98%;
+    scale: 94%;
 }
 
 .github {

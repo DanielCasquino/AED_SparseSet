@@ -67,4 +67,11 @@ public:
         res.add_header("Access-Control-Allow-Origin", "*");
         return res;
     }
+
+    crow::response Find(int value)
+    {
+        crow::response res = _controller->Find(value);
+        res.add_header("Access-Control-Allow-Origin", "*");
+        return res;
+    }
 };

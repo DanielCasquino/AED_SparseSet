@@ -13,8 +13,11 @@
 
     --primary: rgb(160, 160, 160);
     --secondary: rgb(120, 120, 120);
+    --accent: rgb(90, 90, 90);
+
     --dark: rgb(20, 20, 20);
-    --hovered: #9F4A54;
+    --hovered: #374bff;
+    --err: rgb(202, 78, 78);
 
     --tiny: 0.8vmin;
     --small: 1.6vmin;
@@ -25,14 +28,17 @@
     --ginormous: 10vmin;
 
     --square: 6vmin;
+
 }
 
 .body[data-theme="light"] {
     --primary: rgb(40, 40, 40);
     --secondary: rgb(65, 65, 65);
     --accent: rgb(145, 145, 145);
+
     --dark: rgb(230, 230, 230);
     --hovered: #ff9137;
+
 }
 
 .themeButton {
@@ -41,6 +47,8 @@
     right: var(--small);
     width: var(--medium);
     aspect-ratio: 1/1;
+    border-radius: 50%;
+    background-color: var(--hovered);
 }
 
 .loading {
@@ -65,7 +73,6 @@
     box-sizing: content-box;
     padding: var(--small);
     border-radius: var(--small);
-    margin-top: var(--small);
     font-size: var(--small);
     cursor: pointer;
     font-family: 'Rubik', sans-serif;
@@ -73,11 +80,11 @@
 }
 
 .fetchButton:hover {
-    scale: 102%;
+    scale: 106%;
 }
 
 .fetchButton:active {
-    scale: 98%;
+    scale: 94%;
 }
 
 .creationContainer {
@@ -97,7 +104,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    border-radius: 10%;
+    border-radius: var(--small);
     border: transparent;
     outline: transparent;
     caret-color: var(--dark);
@@ -110,7 +117,7 @@
     justify-content: center;
     width: fit-content;
     height: 100%;
-    padding: 0 var(--big);
+    padding: var(--big);
     box-sizing: border-box;
 }
 
@@ -159,4 +166,41 @@
     color: var(--primary);
     margin-bottom: var(--tiny);
     padding-left: 0.4vmin;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+
+    .fetchButton {
+        margin-left: 0.5vmin;
+        min-width: var(--huge);
+    }
+
+    .fetchButton:hover {
+        margin-left: 0.9vmin;
+    }
+
+    .fetchButton:active {
+        scale: 94%;
+    }
+
+    .fetchButton:not(:last-child):hover {
+        margin-left: 0.9vmin;
+        margin-right: 0.4vmin;
+    }
+}
+
+.found {
+    animation: found 6s ease-out;
+}
+
+@keyframes found {
+    0% {
+        background-color: var(--hovered);
+    }
+
+    100% {
+        background-color: var(--primary);
+    }
 }

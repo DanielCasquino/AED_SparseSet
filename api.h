@@ -41,6 +41,8 @@ struct Api
                                                                   { return service->Delete(); });
         CROW_ROUTE(app, "/check").methods(crow::HTTPMethod::Get)([&]()
                                                                  { return service->Ping(); });
+        CROW_ROUTE(app, "/find/<int>").methods(crow::HTTPMethod::Get)([&](int value)
+                                                                      { return service->Find(value); });
     }
 
     /// @brief Starts server.
