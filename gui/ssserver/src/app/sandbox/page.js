@@ -1,9 +1,9 @@
-'use client'
+"use client";
 
-import styles from './sandbox.module.css'
-import './global.css'
-import { useState, useEffect } from 'react'
-import Cookies from 'js-cookie'
+import styles from "./sandbox.module.css";
+import "./global.css";
+import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 
 function LoadingScreen() {
   const [loaded, setLoaded] = useState(false);
@@ -15,7 +15,7 @@ function LoadingScreen() {
     const checkServer = async () => {
       try {
         // Check api state
-        const response = await fetch('http://localhost:18080/check');
+        const response = await fetch("http://localhost:18080/check");
 
         // Proceed
         if (response.status == 200) {
@@ -24,7 +24,7 @@ function LoadingScreen() {
         }
       } catch (error) {
         setLoaded(false);
-        console.error('Error checking server:', error);
+        console.error("Error checking server:", error);
       }
     };
 
@@ -36,28 +36,31 @@ function LoadingScreen() {
     }, 1000);
 
     return () => clearInterval(intervalId);
-
   }, []);
 
   const setThemeInit = () => {
-    let curr = Cookies.get('theme');
-    const body = document.getElementById('body');
-    body.dataset.theme = curr === 'dark' ? 'dark' : 'light';
-  }
+    let curr = Cookies.get("theme");
+    const body = document.getElementById("body");
+    body.dataset.theme = curr === "dark" ? "dark" : "light";
+  };
 
   const changeTheme = () => {
-    const body = document.getElementById('body');
-    body.dataset.theme = body.dataset.theme === 'dark' ? 'light' : 'dark';
+    const body = document.getElementById("body");
+    body.dataset.theme = body.dataset.theme === "dark" ? "light" : "dark";
 
-    let curr = Cookies.get('theme');
-    curr = curr === 'dark' ? 'light' : 'dark';
-    Cookies.set('theme', curr);
-  }
+    let curr = Cookies.get("theme");
+    curr = curr === "dark" ? "light" : "dark";
+    Cookies.set("theme", curr);
+  };
 
   return (
     <div className={styles.body} id="body">
       <button className={styles.themeButton} onClick={changeTheme}></button>
-      {loaded ? <Content /> : <LoadingMessage timer={timer} timeout={timeout} />}
+      {loaded ? (
+        <Content />
+      ) : (
+        <LoadingMessage timer={timer} timeout={timeout} />
+      )}
     </div>
   );
 }
@@ -66,43 +69,42 @@ function LoadingMessage({ timer, timeout }) {
   return (
     <>
       <span className={styles.loading}>Connecting... {timer}s</span>
-      {timer > timeout ? <span className={styles.timeout}>Api not responding. Is it up and running?</span> : <></>}
-    </>)
+      {timer > timeout ? (
+        <span className={styles.timeout}>
+          Api not responding. Is it up and running?
+        </span>
+      ) : (
+        <></>
+      )}
+    </>
+  );
 }
 
 export default function Sandbox() {
-  return (
-    <LoadingScreen />
-  )
+  return <LoadingScreen />;
 }
-
-
-
-
 
 function Content() {
   const [timer, setTimer] = useState(0);
   const [info, setInfo] = useState(null);
 
   useEffect(() => {
-
     const checkExistingSet = async () => {
       try {
         // Check api state
-        const response = await fetch('http://localhost:18080/read');
+        const response = await fetch("http://localhost:18080/read");
 
         // Proceed
         if (response.status == 200) {
           const data = await response.json(); // Await here to get the parsed JSON data
           setInfo(data);
           setTimer(0);
-        }
-        else {
+        } else {
           setInfo(null);
         }
       } catch (error) {
         setInfo(null);
-        console.error('Error checking server:', error);
+        console.error("Error checking server:", error);
       }
     };
 
@@ -114,44 +116,48 @@ function Content() {
     }, 1000);
 
     return () => clearInterval(intervalId);
-
   }, []);
 
-  return (<>
-    {info != null ? <SetFound info={info} setInfo={setInfo} /> : <NoSetFound info={info} setInfo={setInfo} />}
-  </>
-  )
+  return (
+    <>
+      {info != null ? (
+        <SetFound info={info} setInfo={setInfo} />
+      ) : (
+        <NoSetFound info={info} setInfo={setInfo} />
+      )}
+    </>
+  );
 }
 
 function NoSetFound({ info, setInfo }) {
-
   const [creationSize, setCreationSize] = useState(10);
 
   const createSparseSet = async () => {
     if (creationSize > 0 && creationSize <= 100) {
       try {
-        const responseCreate = await fetch(`http://localhost:18080/create/${creationSize}`);
+        const responseCreate = await fetch(
+          `http://localhost:18080/create/${creationSize}`
+        );
 
         if (responseCreate.status === 201) {
-          console.log('Sparse set created successfully');
+          console.log("Sparse set created successfully");
 
           // Fetch created set
-          const responseRead = await fetch('http://localhost:18080/read');
+          const responseRead = await fetch("http://localhost:18080/read");
 
           if (responseRead.status === 200) {
             const data = await responseRead.json(); // Await here to get the parsed JSON data
             setInfo(data);
           } else {
-            console.error('Failed to fetch data after creating sparse set');
+            console.error("Failed to fetch data after creating sparse set");
           }
         } else {
-          console.error('Failed to create sparse set');
+          console.error("Failed to create sparse set");
         }
       } catch (error) {
-        console.error('Error creating sparse set:', error);
+        console.error("Error creating sparse set:", error);
       }
-    }
-    else {
+    } else {
       alert("Invalid size!");
     }
   };
@@ -167,25 +173,35 @@ function NoSetFound({ info, setInfo }) {
 
   return (
     <div className={styles.creationContainer}>
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 'var(--small)' }}>
-        <span className={styles.loading}>My sparse set will hold numbers up to &nbsp;</span>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          marginBottom: "var(--small)",
+        }}
+      >
+        <span className={styles.loading}>
+          My sparse set will hold numbers up to &nbsp;
+        </span>
         <input
           onChange={limitInputLength}
           value={creationSize}
           className={styles.creationInput}
           required
-          type='number'
+          type="number"
           min={1}
           max={100}
           minLength={1}
           maxLength={3}
-          placeholder='10'
-          id='size'
+          placeholder="10"
+          id="size"
         />
       </div>
-      <button className={styles.fetchButton} onClick={createSparseSet}>Create</button>
+      <button className={styles.fetchButton} onClick={createSparseSet}>
+        Create
+      </button>
     </div>
-  )
+  );
 }
 
 function SetFound({ info, setInfo }) {
@@ -213,7 +229,9 @@ function SetFound({ info, setInfo }) {
     return info["dense"].map((value, index) => (
       <div
         key={index}
-        className={`${styles.setSquare} ${hoveredDense === index ? styles.hovered : ''} ${foundDense === index ? styles.found : ''}`}
+        className={`${styles.setSquare} ${
+          hoveredDense === index ? styles.hovered : ""
+        } ${foundDense === index ? styles.found : ""}`}
         onMouseEnter={() => handleDenseHover(value)}
         onMouseLeave={() => handleDenseHover(null)}
         onAnimationEnd={handleAnimationEnd}
@@ -227,7 +245,9 @@ function SetFound({ info, setInfo }) {
     return info["sparse"].map((value, index) => (
       <div
         key={index}
-        className={`${styles.setSquare} ${hoveredSparse === index ? styles.hovered : ''} ${foundSparse === index ? styles.found : ''}`}
+        className={`${styles.setSquare} ${
+          hoveredSparse === index ? styles.hovered : ""
+        } ${foundSparse === index ? styles.found : ""}`}
         onMouseEnter={() => handleSparseHover(value)}
         onMouseLeave={() => handleSparseHover(null)}
         onAnimationEnd={handleAnimationEnd}
@@ -244,15 +264,33 @@ function SetFound({ info, setInfo }) {
   return (
     <div className={styles.setContainer}>
       <span className={styles.label}>Dense Array</span>
-      <div className={styles.array} id="dense">{dense}</div>
+      <div className={styles.array} id="dense">
+        {dense}
+      </div>
       <span className={styles.label}>Sparse Array</span>
-      <div className={styles.array} id="sparse">{sparse}</div>
-      <Controls info={info} setInfo={setInfo} foundDense={foundDense} foundSparse={foundSparse} setFoundDense={setFoundDense} setFoundSparse={setFoundSparse} />
+      <div className={styles.array} id="sparse">
+        {sparse}
+      </div>
+      <Controls
+        info={info}
+        setInfo={setInfo}
+        foundDense={foundDense}
+        foundSparse={foundSparse}
+        setFoundDense={setFoundDense}
+        setFoundSparse={setFoundSparse}
+      />
     </div>
   );
 }
 
-function Controls({ info, setInfo, foundDense, foundSparse, setFoundDense, setFoundSparse }) {
+function Controls({
+  info,
+  setInfo,
+  foundDense,
+  foundSparse,
+  setFoundDense,
+  setFoundSparse,
+}) {
   const [currentValue, setCurrentValue] = useState(0);
 
   const limitInputLength = (e) => {
@@ -265,26 +303,27 @@ function Controls({ info, setInfo, foundDense, foundSparse, setFoundDense, setFo
   };
 
   const insert = async () => {
+    event.preventDefault();
     try {
-      const response = await fetch(`http://localhost:18080/insert/${currentValue}`);
+      const response = await fetch(
+        `http://localhost:18080/insert/${currentValue}`
+      );
       // Proceed
       if (response.status == 201) {
-        const response = await fetch('http://localhost:18080/read');
+        const response = await fetch("http://localhost:18080/read");
 
         // Proceed
         if (response.status == 200) {
           const data = await response.json(); // Await here to get the parsed JSON data
           setInfo(data);
-        }
-        else {
+        } else {
           setInfo(null);
         }
-      }
-      else if (response.status == 400) {
+      } else if (response.status == 400) {
         window.alert("Value already exists or is invalid!");
       }
     } catch (error) {
-      console.error('Error inserting value:', error);
+      console.error("Error inserting value:", error);
     }
   };
 
@@ -293,103 +332,118 @@ function Controls({ info, setInfo, foundDense, foundSparse, setFoundDense, setFo
       const response = await fetch(`http://localhost:18080/delete`);
 
       if (response.status == 200) {
-        const response = await fetch('http://localhost:18080/read');
+        const response = await fetch("http://localhost:18080/read");
 
         if (response.status == 200) {
           const data = await response.json();
           setInfo(data);
-        }
-        else {
+        } else {
           setInfo(null);
         }
       }
     } catch (error) {
-      console.error('Error deleting set:', error);
+      console.error("Error deleting set:", error);
     }
-  }
+  };
 
   const clear = async () => {
     try {
       const response = await fetch(`http://localhost:18080/clear`);
 
       if (response.status == 200) {
-        const response = await fetch('http://localhost:18080/read');
+        const response = await fetch("http://localhost:18080/read");
 
         if (response.status == 200) {
           const data = await response.json();
           setInfo(data);
-        }
-        else {
+        } else {
           setInfo(null);
         }
       }
     } catch (error) {
-      console.error('Error clearing set:', error);
+      console.error("Error clearing set:", error);
     }
-  }
+  };
 
   const remove = async () => {
     try {
-      const response = await fetch(`http://localhost:18080/remove/${currentValue}`);
+      const response = await fetch(
+        `http://localhost:18080/remove/${currentValue}`
+      );
 
       if (response.status == 200) {
-        const response = await fetch('http://localhost:18080/read');
+        const response = await fetch("http://localhost:18080/read");
 
         if (response.status == 200) {
           const data = await response.json();
           setInfo(data);
-        }
-        else {
+        } else {
           setInfo(null);
         }
-      }
-      else if (response.status == 404) {
+      } else if (response.status == 404) {
         window.alert("Value doesn't exist!");
       }
     } catch (error) {
-      console.error('Error removing value:', error);
+      console.error("Error removing value:", error);
     }
-  }
+  };
 
   const find = async () => {
     try {
-      const response = await fetch(`http://localhost:18080/find/${currentValue}`);
+      const response = await fetch(
+        `http://localhost:18080/find/${currentValue}`
+      );
 
       if (response.status == 200) {
         const denseIndex = await response.json();
         setFoundDense(denseIndex);
         setFoundSparse(info["dense"][denseIndex]);
-      }
-      else if (response.status == 404) {
+      } else if (response.status == 404) {
         setFoundDense(-1);
         setFoundSparse(-1);
         window.alert("Value was not found!");
       }
     } catch (error) {
-      console.error('Error removing value:', error);
+      console.error("Error removing value:", error);
     }
-  }
+  };
 
   return (
     <div className={styles.controls}>
-      <input
-        onChange={limitInputLength}
-        value={currentValue}
-        className={styles.creationInput}
-        required
-        type='number'
-        min={0}
-        max={100}
-        minLength={1}
-        maxLength={3}
-        placeholder='0'
-        id='size'
-      />
-      <button className={styles.fetchButton} onClick={insert}>Insert</button>
-      <button className={styles.fetchButton} onClick={find}>Find</button>
-      <button className={styles.fetchButton} onClick={remove}>Remove</button>
-      <button className={styles.fetchButton} onClick={clear}>Clear</button>
-      <button className={styles.fetchButton} style={{ backgroundColor: 'var(--hovered)' }} onClick={del}>Delete</button>
+      <form onSubmit={insert}>
+        <input
+          onChange={limitInputLength}
+          value={currentValue}
+          className={styles.creationInput}
+          required
+          type="number"
+          min={0}
+          max={100}
+          minLength={1}
+          maxLength={3}
+          placeholder="0"
+          id="size"
+        />
+      </form>
+      <button className={styles.fetchButton} onClick={insert}>
+        Insert
+      </button>
+      <button className={styles.fetchButton} onClick={find}>
+        Find
+      </button>
+      <button className={styles.fetchButton} onClick={remove}>
+        Remove
+      </button>
+      <button className={styles.fetchButton} onClick={clear}>
+        Clear
+      </button>
+      <button
+        className={styles.fetchButton}
+        style={{ backgroundColor: "var(--hovered)" }}
+        onClick={del}
+      >
+        Delete
+      </button>
     </div>
   );
 }
