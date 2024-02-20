@@ -41,3 +41,20 @@ export function HomeButton({ styles }) {
     </button>
   );
 }
+
+
+export function MuteButton({ styles, audioEnabled, setAudioEnabled }) {
+  const toggleAudio = () => {
+    setAudioEnabled(audioEnabled === false ? true : false);
+    Cookies.set("audioEnabled", audioEnabled === false ? 'true' : 'false');
+  };
+  return (
+    <button
+      className={styles.themeButton}
+      onClick={toggleAudio}
+      style={{ right: 'var(--huge)' }}
+    >
+      <img src={audioEnabled === true ? "volume_up_FILL0_wght400_GRAD0_opsz24.svg" : "no_sound_FILL0_wght400_GRAD0_opsz24.svg"}></img>
+    </button>
+  );
+}

@@ -63,11 +63,11 @@
 }
 
 .themeButton:hover {
-  scale: 106%;
+  scale: 120%;
 }
 
 .themeButton:active {
-  scale: 94%;
+  scale: 80%;
 }
 
 .loading {
@@ -118,7 +118,7 @@
   color: var(--dark);
   font-family: "Rubik", sans-serif;
   font-size: var(--medium);
-  font-weight: 800;
+  font-weight: 600;
   display: flex;
   justify-content: center;
   align-items: center;

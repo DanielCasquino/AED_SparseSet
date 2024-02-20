@@ -4,12 +4,13 @@ import styles from "./sandbox.module.css";
 import "./global.css";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
-import { ThemeButton, HomeButton } from "../themebutton";
+import { ThemeButton, HomeButton, MuteButton } from "../themebutton";
 
 function LoadingScreen() {
   const [loaded, setLoaded] = useState(false);
   const timeout = 10;
   const [timer, setTimer] = useState(0);
+  const [audioEnabled, setAudioEnabled] = useState(false);
 
   useEffect(() => {
     setThemeInit();
@@ -43,14 +44,25 @@ function LoadingScreen() {
     let curr = Cookies.get("theme");
     const body = document.getElementById("body");
     body.dataset.theme = curr === "dark" ? "dark" : "light";
+
+    let audioState = Cookies.get("audioEnabled");
+    if (audioState !== undefined) {
+      if (audioState === 'true') {
+        setAudioEnabled(true);
+      }
+      else if (audioState === 'false') {
+        setAudioEnabled(false);
+      }
+    }
   };
 
   return (
     <div className={styles.body} id="body">
       <HomeButton styles={styles} />
       <ThemeButton styles={styles} />
+      <MuteButton styles={styles} audioEnabled={audioEnabled} setAudioEnabled={setAudioEnabled} />
       {loaded ? (
-        <Content />
+        <Content audioEnabled={audioEnabled} />
       ) : (
         <LoadingMessage timer={timer} timeout={timeout} />
       )}
@@ -77,7 +89,7 @@ export default function Sandbox() {
   return <LoadingScreen />;
 }
 
-function Content() {
+function Content({ audioEnabled }) {
   const [timer, setTimer] = useState(0);
   const [info, setInfo] = useState(null);
 
@@ -114,15 +126,15 @@ function Content() {
   return (
     <>
       {info != null ? (
-        <SetFound info={info} setInfo={setInfo} />
+        <SetFound info={info} setInfo={setInfo} audioEnabled={audioEnabled} />
       ) : (
-        <NoSetFound info={info} setInfo={setInfo} />
+        <NoSetFound setInfo={setInfo} />
       )}
     </>
   );
 }
 
-function NoSetFound({ info, setInfo }) {
+function NoSetFound({ setInfo }) {
   const [creationSize, setCreationSize] = useState(10);
 
   const createSparseSet = async () => {
@@ -197,7 +209,29 @@ function NoSetFound({ info, setInfo }) {
   );
 }
 
-function SetFound({ info, setInfo }) {
+function SetFound({ info, setInfo, audioEnabled }) {
+
+  const audioFiles = [];
+  const context = require.context('./audio', false, /\.(mp3)$/);
+  context.keys().forEach((key) => {
+    audioFiles.push(context(key).default);
+  });
+
+  let lastPlayedIndex = -1;
+  function playRandomAudio() {
+    if (audioEnabled === true) {
+      let index;
+      do {
+        index = Math.floor(Math.random() * audioFiles.length);
+      } while (index === lastPlayedIndex);
+
+      lastPlayedIndex = index;
+
+      const audio = new Audio(audioFiles[index]);
+      audio.play();
+    }
+  }
+
   const [hoveredDense, setHoveredDense] = useState(null);
   const [hoveredSparse, setHoveredSparse] = useState(null);
 
@@ -205,10 +239,16 @@ function SetFound({ info, setInfo }) {
   const [foundSparse, setFoundSparse] = useState(-1);
 
   const handleDenseHover = (value) => {
+    if (value != null) {
+      playRandomAudio();
+    }
     setHoveredSparse(value != -1 ? value : null);
   };
 
   const handleSparseHover = (value) => {
+    if (value != null) {
+      playRandomAudio();
+    }
     setHoveredDense(value != -1 ? value : null);
   };
 
@@ -222,9 +262,9 @@ function SetFound({ info, setInfo }) {
     return info["dense"].map((value, index) => (
       <div
         key={index}
-        className={`${styles.setSquare} ${
-          hoveredDense === index ? styles.hovered : ""
-        } ${foundDense === index ? styles.found : ""}`}
+        id="square"
+        className={`${styles.setSquare} ${hoveredDense === index ? styles.hovered : ""
+          } ${foundDense === index ? styles.found : ""}`}
         onMouseEnter={() => handleDenseHover(value)}
         onMouseLeave={() => handleDenseHover(null)}
         onAnimationEnd={handleAnimationEnd}
@@ -238,9 +278,9 @@ function SetFound({ info, setInfo }) {
     return info["sparse"].map((value, index) => (
       <div
         key={index}
-        className={`${styles.setSquare} ${
-          hoveredSparse === index ? styles.hovered : ""
-        } ${foundSparse === index ? styles.found : ""}`}
+        id="square"
+        className={`${styles.setSquare} ${hoveredSparse === index ? styles.hovered : ""
+          } ${foundSparse === index ? styles.found : ""}`}
         onMouseEnter={() => handleSparseHover(value)}
         onMouseLeave={() => handleSparseHover(null)}
         onAnimationEnd={handleAnimationEnd}
@@ -267,8 +307,6 @@ function SetFound({ info, setInfo }) {
       <Controls
         info={info}
         setInfo={setInfo}
-        foundDense={foundDense}
-        foundSparse={foundSparse}
         setFoundDense={setFoundDense}
         setFoundSparse={setFoundSparse}
       />
@@ -279,8 +317,6 @@ function SetFound({ info, setInfo }) {
 function Controls({
   info,
   setInfo,
-  foundDense,
-  foundSparse,
   setFoundDense,
   setFoundSparse,
 }) {

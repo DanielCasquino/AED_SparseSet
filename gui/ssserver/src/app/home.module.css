@@ -62,11 +62,11 @@
 }
 
 .themeButton:hover {
-  scale: 106%;
+  scale: 120%;
 }
 
 .themeButton:active {
-  scale: 94%;
+  scale: 80%;
 }
 
 .bigTitle {
@@ -125,4 +125,12 @@
   right: var(--medium);
   width: var(--medium);
   filter: invert(100%);
+}
+
+.github:hover {
+  scale: 120%;
+}
+
+.github:active {
+  scale: 80%;
 }
