@@ -2,24 +2,39 @@
 
 import styles from "./home.module.css";
 import "./global.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { ThemeButton } from "./themebutton";
 
 export default function Home() {
+  const [theme, setTheme] = useState('dark');
+
   useEffect(() => {
     setThemeInit();
   }, []);
 
   const setThemeInit = () => {
-    let curr = Cookies.get("theme");
+    let themeState = Cookies.get("theme");
     const body = document.getElementById("body");
-    body.dataset.theme = curr === "dark" ? "dark" : "light";
+    if (themeState !== undefined) {
+      if (themeState === 'dark') {
+        setTheme('dark');
+        body.dataset.theme = 'dark';
+      }
+      else if (themeState === 'light') {
+        setTheme('light');
+        body.dataset.theme = 'light';
+      }
+    }
+    else {
+      setTheme('dark');
+      body.dataset.theme = 'dark';
+    }
   };
 
   return (
     <div className={styles.body} id="body">
-      <ThemeButton styles={styles} />
+      <ThemeButton styles={styles} theme={theme} setTheme={setTheme} />
       <a href="https://github.com/DanielCasquino/AED_SparseSet">
         <img
           src="github-mark/github-mark.svg"

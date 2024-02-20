@@ -62,11 +62,15 @@
 }
 
 .themeButton:hover {
-  scale: 120%;
+  .img {
+    scale: 120%;
+  }
 }
 
 .themeButton:active {
-  scale: 80%;
+  .img {
+    scale: 80%;
+  }
 }
 
 .bigTitle {

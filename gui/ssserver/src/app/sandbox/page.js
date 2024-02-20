@@ -11,6 +11,7 @@ function LoadingScreen() {
   const timeout = 10;
   const [timer, setTimer] = useState(0);
   const [audioEnabled, setAudioEnabled] = useState(false);
+  const [theme, setTheme] = useState('dark');
 
   useEffect(() => {
     setThemeInit();
@@ -41,9 +42,22 @@ function LoadingScreen() {
   }, []);
 
   const setThemeInit = () => {
-    let curr = Cookies.get("theme");
+    let themeState = Cookies.get("theme");
     const body = document.getElementById("body");
-    body.dataset.theme = curr === "dark" ? "dark" : "light";
+    if (themeState !== undefined) {
+      if (themeState === 'dark') {
+        setTheme('dark');
+        body.dataset.theme = 'dark';
+      }
+      else if (themeState === 'light') {
+        setTheme('light');
+        body.dataset.theme = 'light';
+      }
+    }
+    else {
+      setTheme('dark');
+      body.dataset.theme = 'dark';
+    }
 
     let audioState = Cookies.get("audioEnabled");
     if (audioState !== undefined) {
@@ -59,7 +73,7 @@ function LoadingScreen() {
   return (
     <div className={styles.body} id="body">
       <HomeButton styles={styles} />
-      <ThemeButton styles={styles} />
+      <ThemeButton styles={styles} theme={theme} setTheme={setTheme} />
       <MuteButton styles={styles} audioEnabled={audioEnabled} setAudioEnabled={setAudioEnabled} />
       {loaded ? (
         <Content audioEnabled={audioEnabled} />
