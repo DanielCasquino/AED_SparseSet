@@ -1,111 +1,128 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&display=swap");
 
 .body {
-    width: 100%;
-    height: 100%;
-    background-color: var(--dark);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    user-select: none;
-    flex-direction: column;
-    font-family: 'Rubik', sans-serif;
+  width: 100%;
+  height: 100%;
+  background-color: var(--dark);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  flex-direction: column;
+  font-family: "Rubik", sans-serif;
 
-    --primary: rgb(160, 160, 160);
-    --secondary: rgb(120, 120, 120);
-    --dark: rgb(20, 20, 20);
-    --hovered: #374bff;
+  --primary: rgb(160, 160, 160);
+  --secondary: rgb(120, 120, 120);
+  --dark: rgb(20, 20, 20);
+  --hovered: #374bff;
 
-    --tiny: 0.8vmin;
-    --small: 1.6vmin;
-    --regular: 2vmin;
-    --medium: 3vmin;
-    --big: 5vmin;
-    --huge: 8vmin;
-    --ginormous: 10vmin;
+  --tiny: 0.8vmin;
+  --small: 1.6vmin;
+  --regular: 2vmin;
+  --medium: 3vmin;
+  --big: 5vmin;
+  --huge: 8vmin;
+  --ginormous: 10vmin;
 
-    --square: 6vmin;
+  --square: 6vmin;
 
-    .github {
-        filter: invert(100%);
-    }
+  .themeButton {
+    filter: invert(100%);
+  }
 }
 
 .body[data-theme="light"] {
-    --primary: rgb(40, 40, 40);
-    --secondary: rgb(65, 65, 65);
-    --dark: rgb(230, 230, 230);
-    --hovered: #ff9137;
+  --primary: rgb(40, 40, 40);
+  --secondary: rgb(65, 65, 65);
+  --dark: rgb(230, 230, 230);
+  --hovered: #ff9137;
 
-    .github {
-        filter: invert(0%);
-    }
+  .github {
+    filter: invert(0%);
+  }
+
+  .themeButton {
+    filter: invert(0%);
+  }
 }
 
 .themeButton {
-    position: absolute;
-    top: var(--small);
-    right: var(--small);
-    width: var(--medium);
-    aspect-ratio: 1/1;
-    border-radius: 50%;
-    background-color: var(--hovered);
-    cursor: pointer;
+  position: absolute;
+  display: flex;
+  top: var(--medium);
+  right: var(--medium);
+  cursor: pointer;
+  background-color: transparent;
+  outline: transparent;
+  border: transparent;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+.themeButton:hover {
+  scale: 106%;
+}
+
+.themeButton:active {
+  scale: 94%;
 }
 
 .bigTitle {
-    font-size: var(--ginormous);
-    font-weight: 800;
-    color: var(--primary);
-    margin: 0;
+  font-size: var(--ginormous);
+  font-weight: 800;
+  color: var(--primary);
+  margin: 0;
 }
 
 .smallTitle {
-    font-size: var(--small);
-    font-weight: 600;
-    color: var(--secondary);
-    margin: 0;
+  font-size: var(--small);
+  font-weight: 600;
+  color: var(--secondary);
+  margin: 0;
 }
 
 .about {
-    font-size: var(--small);
-    font-weight: 400;
-    color: var(--primary);
-    margin-top: var(--medium);
-    width: 40%;
-    min-width: 480px;
-    max-width: 640px;
-    text-align: center;
-    text-justify: inter-word;
+  font-size: var(--small);
+  font-weight: 400;
+  color: var(--primary);
+  margin-top: var(--medium);
+  width: 40%;
+  min-width: 480px;
+  max-width: 640px;
+  text-align: center;
+  text-justify: inter-word;
 }
 
 .sandbox {
-    background-color: var(--primary);
-    color: var(--dark);
-    border: none;
-    outline: none;
-    box-sizing: content-box;
-    padding: var(--small);
-    border-radius: var(--small);
-    margin-top: var(--medium);
-    font-size: var(--small);
-    cursor: pointer;
-    font-family: 'Rubik', sans-serif;
-    font-weight: 600;
-    transition: all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  background-color: var(--primary);
+  color: var(--dark);
+  border: none;
+  outline: none;
+  box-sizing: content-box;
+  padding: var(--small);
+  border-radius: var(--small);
+  margin-top: var(--medium);
+  font-size: var(--small);
+  cursor: pointer;
+  font-family: "Rubik", sans-serif;
+  font-weight: 600;
+  transition: all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .sandbox:hover {
-    scale: 106%;
+  scale: 106%;
 }
 
 .sandbox:active {
-    scale: 94%;
+  scale: 94%;
 }
 
 .github {
-    position: absolute;
-    bottom: var(--small);
-    right: var(--small);
-    width: var(--medium);
+  position: absolute;
+  bottom: var(--medium);
+  right: var(--medium);
+  width: var(--medium);
+  filter: invert(100%);
 }
