@@ -62,7 +62,7 @@ public:
     /// @return True if value was inserted, false otherwise.
     bool insert(const int value)
     {
-        if (value > _maxValue)
+        if (value > _maxValue || value < 0)
         {
             return false;
         }
