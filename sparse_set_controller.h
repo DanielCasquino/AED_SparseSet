@@ -3,6 +3,7 @@
 #include "sparse_set.h"
 #include "crow.h"
 #include <iostream>
+#include <random>
 
 /// @brief HTTP Controller for the static_sparse_set class.
 class sparse_set_controller
@@ -10,6 +11,8 @@ class sparse_set_controller
 private:
     static_sparse_set *_data = nullptr;
     friend class sparse_set_service;
+
+    std::random_device rd;
 
     auto DenseToVector()
     {
@@ -171,6 +174,30 @@ public:
                 return crow::response(200, std::move(wv)); // Value found, returns dense idx
             }
             return crow::response(404, std::move(wv)); // Value not found, -1
+        }
+    }
+
+    crow::response Random()
+    {
+        if (!_data)
+        {
+            return crow::response(404);
+        }
+        else
+        {
+            std::mt19937 mt(rd());
+            std::uniform_int_distribution<int> dist(0, _data->_maxValue);
+            this->Clear();
+            for (int i = 0; i < _data->_size; ++i)
+            {
+                int toInsert = -1;
+                while (toInsert == -1 || _data->find(toInsert) != -1)
+                {
+                    toInsert = dist(mt);
+                }
+                _data->insert(toInsert);
+            }
+            return crow::response(201);
         }
     }
 

@@ -43,6 +43,8 @@ struct Api
                                                                  { return service->Ping(); });
         CROW_ROUTE(app, "/find/<int>").methods(crow::HTTPMethod::Get)([&](int value)
                                                                       { return service->Find(value); });
+        CROW_ROUTE(app, "/random").methods(crow::HTTPMethod::Get)([&]()
+                                                                  { return service->Random(); });
     }
 
     /// @brief Starts server.

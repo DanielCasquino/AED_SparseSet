@@ -74,4 +74,11 @@ public:
         res.add_header("Access-Control-Allow-Origin", "*");
         return res;
     }
+
+    crow::response Random()
+    {
+        crow::response res = _controller->Random();
+        res.add_header("Access-Control-Allow-Origin", "*");
+        return res;
+    }
 };
