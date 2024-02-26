@@ -91,7 +91,7 @@ public:
     /// @return -1 if value was not found, else returns index of element in dense.
     int find(int value)
     {
-        if (value > _maxValue)
+        if (value > _maxValue || value < 0)
             return -1;
 
         if (_sparse[value] < _itemCount && _dense[_sparse[value]] == value) // Checks if found index is in range and value is found in dense

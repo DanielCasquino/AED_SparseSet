@@ -153,11 +153,15 @@ public:
 
     crow::response Find(int value)
     {
+        if (!_data)
+        {
+            return crow::response(404);
+        }
         if (value > this->GetMaxValue() || value < 0)
         {
             return crow::response(400); // Bad req
         }
-        else if (_data)
+        else
         {
             int response = _data->find(value);
             crow::json::wvalue wv;
@@ -167,10 +171,6 @@ public:
                 return crow::response(200, std::move(wv)); // Value found, returns dense idx
             }
             return crow::response(404, std::move(wv)); // Value not found, -1
-        }
-        else
-        {
-            return crow::response(404); // Set not found, shouldn't be able to req here anyways without api access
         }
     }
 
