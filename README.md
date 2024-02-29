@@ -8,8 +8,6 @@
 
 **Daniel Casquino**
 
-**Alexis Raza**
-
 **Gabriel Blanco**
 
 #### Introducción
